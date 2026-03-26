@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Cadastro</h2>
+    <form id="form">
+
+      <div class="field">
+        <label>Nome</label>
+        <input type="text" id="nome">
+        <div class="error" id="nomeError">Nome deve ter pelo menos 3 caracteres</div>
+      </div>
+
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="email">
+        <div class="error" id="emailError">Email inválido</div>
+      </div>
+
+      <div class="field">
+        <label>Senha</label>
+        <input type="password" id="senha">
+        <div class="strength"><div id="barra"></div></div>
+        <div class="error" id="senhaError">Senha deve ter 6+ caracteres, número e letra</div>
+      </div>
+
+      <div class="field">
+        <label>Confirmar Senha</label>
+        <input type="password" id="confirmar">
+        <div class="error" id="confirmarError">Senhas não coincidem</div>
+      </div>
+
+      <button type="submit">Cadastrar</button>
+    </form>
+  </div>
+
+  <!-- Modal bonito -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <h3>🎉 Cadastro realizado!</h3>
+      <p>Seus dados foram enviados com sucesso.</p>
+      <button onclick="fecharModal()">OK</button>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
