@@ -7,67 +7,76 @@ const barra = document.getElementById("barra");
 const modal = document.getElementById("modal");
 
 function validarNome() {
-  if (nome.value.length < 3) {
-    showError(nome, "nomeError");
+  if (nome.value.trim().length < 3) {
+    showError(nome, "nome-error", "Nome deve ter pelo menos 3 caracteres");
     return false;
   }
-  showSuccess(nome, "nomeError");
+  showSuccess(nome, "nome-error");
   return true;
 }
 
 function validarEmail() {
-  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!regex.test(email.value)) {
-    showError(email, "emailError");
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;  if (!regex.test(email.value)) {
+    showError(email, "email-error", "Digite um email válido");
     return false;
   }
-  showSuccess(email, "emailError");
+  showSuccess(email, "email-error");
   return true;
 }
 
 function validarSenha() {
   const val = senha.value;
-  let força = 0;
+  let forca = 0;
 
-  if (val.length >= 6) força++;
-  if (/[A-Z]/.test(val)) força++;
-  if (/[0-9]/.test(val)) força++;
+  if (val.length >= 6) forca++;
+  if (/[A-Z]/.test(val)) forca++;
+  if (/[0-9]/.test(val)) forca++;
 
-  barra.style.width = força * 33 + "%";
+  document.querySelector(".strength").style.display =
+    val.length > 0 ? "block" : "none";
+
+  barra.style.width = forca * 33 + "%";
   barra.style.background =
-    força < 2 ? "#ef4444" : força === 2 ? "#f59e0b" : "#22c55e";
+    forca < 2 ? "#ef4444" : forca === 2 ? "#f59e0b" : "#22c55e";
 
-  if (força < 2) {
-    showError(senha, "senhaError");
+  if (forca < 2) {
+    showError(
+      senha,
+      "senha-error",
+      "Mínimo 6 caracteres, 1 maiúscula e 1 número"
+    );
     return false;
   }
 
-  if (senha.value.length > 0) {
-  document.querySelector('.strength').style.display = 'block';
-}
-  showSuccess(senha, "senhaError");
+  showSuccess(senha, "senha-error");
   return true;
 }
 
 function validarConfirmar() {
-  if (senha.value !== confirmar.value || confirmar.value === "") {
-    showError(confirmar, "confirmarError");
+  if (confirmar.value !== senha.value || confirmar.value === "") {
+    showError(confirmar, "confirmar-error", "As senhas não coincidem");
     return false;
   }
-  showSuccess(confirmar, "confirmarError");
+  showSuccess(confirmar, "confirmar-error");
   return true;
 }
 
-function showError(input, errorId) {
+function showError(input, errorId, message) {
   input.classList.add("error-input");
   input.classList.remove("success");
-  document.getElementById(errorId).style.display = "block";
+
+  const error = document.getElementById(errorId);
+  error.textContent = message;
+  error.style.display = "block";
 }
 
 function showSuccess(input, errorId) {
   input.classList.remove("error-input");
   input.classList.add("success");
-  document.getElementById(errorId).style.display = "none";
+
+  const error = document.getElementById(errorId);
+  error.textContent = "";
+  error.style.display = "none";
 }
 
 function abrirModal() {
@@ -83,9 +92,21 @@ email.addEventListener("input", validarEmail);
 senha.addEventListener("input", validarSenha);
 confirmar.addEventListener("input", validarConfirmar);
 
+nome.addEventListener("blur", validarNome);
+email.addEventListener("blur", validarEmail);
+senha.addEventListener("blur", validarSenha);
+confirmar.addEventListener("blur", validarConfirmar);
+
 form.addEventListener("submit", function (e) {
   e.preventDefault();
-  const valid = validarNome() && validarEmail() && validarSenha() && validarConfirmar();  if (valid) {
+
+  const valid =
+    validarNome() &&
+    validarEmail() &&
+    validarSenha() &&
+    validarConfirmar();
+
+  if (valid) {
     abrirModal();
   }
 });
